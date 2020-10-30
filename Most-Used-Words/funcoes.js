@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const readDirectory = (way) => {
+const readDirectory = way => {
     return new Promise((resolve, reject) => {
         try {
             const files = fs.readdirSync(way).map(file => path.join(way, file))
@@ -12,7 +12,7 @@ const readDirectory = (way) => {
     })
 }
 
-const elementsEndWith = (array, padrao) => {
+const getElementsWithEnd = (array, padrao) => {
     return array.filter(el => el.endsWith(padrao))
 }
 
@@ -20,7 +20,7 @@ const replaceValue = (array, value, newvalue) => {
     return array.map(el => el.split(value).join(newvalue))
 }
 
-const readFile = (way) => {
+const readFile = way => {
     return new Promise((resolve, reject) => {
         try {
             const data = fs.readFileSync(way, { encoding: 'utf-8' })
@@ -30,13 +30,32 @@ const readFile = (way) => {
         }
     })
 }
-const readFiles = (ways) => {
+const readFiles = ways => {
     return Promise.all(ways.map(data => readFile(data)))
+}
+
+const deleteSpace = array => {
+    return array.filter(el => el.trim())
+}
+
+const removeIfIncludes = (array, value) => {
+    return array.filter(el => !el.includes(value))
+}
+
+const removeIfContentNumbers = array => {
+    return array.filter(el => {
+        let num = parseInt(el.trim())
+        return num !== num
+    })
 }
 
 module.exports = {
     readDirectory,
-    elementsEndWith,
+    getElementsWithEnd,
     replaceValue,
-    readFiles
+    readFiles,
+    deleteSpace,
+    removeIfIncludes,
+    removeIfContentNumbers
+    
 } 
