@@ -12,13 +12,21 @@ const readDirectory = way => {
     })
 }
 
-const getElementsWithEnd = (array, padrao) => {
-    return array.filter(el => el.endsWith(padrao))
+const getElementsWithEnd = value => {
+    return function(array){
+        return array.filter(el => el.endsWith(value))
+    }
 }
 
-const replaceValue = (array, value, newvalue) => {
-    return array.map(el => el.split(value).join(newvalue))
+const replaceValue = (value, newvalue) => {
+    return function(array){
+        return array.map(el => el.split(value).join(newvalue))
+    }
 }
+
+const addArrayInString = data => data.join('\n')
+
+const stringInSubstringList = data => data.split('\n')
 
 const readFile = way => {
     return new Promise((resolve, reject) => {
@@ -38,14 +46,23 @@ const deleteSpace = array => {
     return array.filter(el => el.trim())
 }
 
-const removeIfIncludes = (array, value) => {
-    return array.filter(el => !el.includes(value))
+const removeElementsIfIncludes = value => {
+    return function(array){
+        return array.filter(el => !el.includes(value))
+    }
 }
 
-const removeIfContentNumbers = array => {
+const removeElementsIfContentNumbers = array => {
     return array.filter(el => {
         let num = parseInt(el.trim())
         return num !== num
+    })
+}
+
+const removeSimbols = array => {
+    return array.map(el => {
+        let simbol = /[.,\/#!?$%\^&\*;:{}=\-_`"~()\r/0-9/<i></i>/♪/]/g
+        return el.replace(simbol, '').trim()
     })
 }
 
@@ -53,9 +70,11 @@ module.exports = {
     readDirectory,
     getElementsWithEnd,
     replaceValue,
+    addArrayInString,
+    stringInSubstringList,
     readFiles,
     deleteSpace,
-    removeIfIncludes,
-    removeIfContentNumbers
-    
+    removeElementsIfIncludes,
+    removeElementsIfContentNumbers,
+    removeSimbols, 
 } 
