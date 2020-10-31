@@ -13,13 +13,13 @@ const readDirectory = way => {
 }
 
 const getElementsWithEnd = value => {
-    return function(array){
+    return function (array) {
         return array.filter(el => el.endsWith(value))
     }
 }
 
 const replaceValue = (value, newvalue) => {
-    return function(array){
+    return function (array) {
         return array.map(el => el.split(value).join(newvalue))
     }
 }
@@ -27,7 +27,7 @@ const replaceValue = (value, newvalue) => {
 const arrayToString = data => data.join(' ')
 
 const splitStringsBy = value => {
-    return function(data) {
+    return function (data) {
         return data.split(value)
     }
 }
@@ -37,7 +37,7 @@ const readFile = way => {
         try {
             const data = fs.readFileSync(way, { encoding: 'utf-8' })
             resolve(data.toString())
-        } catch(err) {
+        } catch (err) {
             reject(`Erro ao ler arquivo: ${err}`)
         }
     })
@@ -51,7 +51,7 @@ const deleteSpace = array => {
 }
 
 const removeElementsIfIncludes = value => {
-    return function(array){
+    return function (array) {
         return array.filter(el => !el.includes(value))
     }
 }
@@ -69,19 +69,31 @@ const symbols = [
     '(', ')', '*', '&', '¨', '%', '$', '#',
     '@', '!', '"', 'º', 'ª', '§', '¬', '¢',
     '£', '³', '²', '¹', '<i>', '<\i>', '\r',
-    '♪',
+    '♪', '"', "'"
 ]
 
-const removeSimbols = () => { 
-      return function(array){
-        return array.map(el => {        
-        let newData = el
-        symbols.forEach(symbol => {
-            newData = newData.split(symbol).join('').trim()
+const removeSimbols = () => {
+    return function (array) {
+        return array.map(el => {
+            let newData = el
+            symbols.forEach(symbol => {
+                newData = newData.split(symbol).join('').trim()
+            })
+            return newData
         })
-        return newData
-    })
-    }    
+    }
+}
+
+const accElements = data => {
+    return data.reduce((acc, value) => {
+        const valueToLowerCase = value.toLowerCase()
+        if (acc[valueToLowerCase]) {
+            acc[valueToLowerCase] += 1
+        } else {
+            acc[valueToLowerCase] = 1
+        }
+        return acc
+    }, {})
 }
 
 module.exports = {
@@ -95,5 +107,6 @@ module.exports = {
     removeElementsIfIncludes,
     removeElementsIfContentNumbers,
     removeSimbols,
-    symbols
+    symbols,
+    accElements
 } 
