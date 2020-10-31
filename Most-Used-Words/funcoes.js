@@ -24,9 +24,13 @@ const replaceValue = (value, newvalue) => {
     }
 }
 
-const addArrayInString = data => data.join('\n')
+const arrayToString = data => data.join(' ')
 
-const stringInSubstringList = data => data.split('\n')
+const splitStringsBy = value => {
+    return function(data) {
+        return data.split(value)
+    }
+}
 
 const readFile = way => {
     return new Promise((resolve, reject) => {
@@ -59,22 +63,37 @@ const removeElementsIfContentNumbers = array => {
     })
 }
 
-const removeSimbols = array => {
-    return array.map(el => {
-        let simbol = /[.,\/#!?$%\^&\*;:{}=\-_`"~()\r/0-9/<i></i>/♪/]/g
-        return el.replace(simbol, '').trim()
+const symbols = [
+    '.', ',', '/', '?', ';', ':', '~', '^',
+    '{', '}', '[', ']', '=', '+', '-', '_',
+    '(', ')', '*', '&', '¨', '%', '$', '#',
+    '@', '!', '"', 'º', 'ª', '§', '¬', '¢',
+    '£', '³', '²', '¹', '<i>', '<\i>', '\r',
+    '♪',
+]
+
+const removeSimbols = () => { 
+      return function(array){
+        return array.map(el => {        
+        let newData = el
+        symbols.forEach(symbol => {
+            newData = newData.split(symbol).join('').trim()
+        })
+        return newData
     })
+    }    
 }
 
 module.exports = {
     readDirectory,
     getElementsWithEnd,
     replaceValue,
-    addArrayInString,
-    stringInSubstringList,
+    arrayToString,
+    splitStringsBy,
     readFiles,
     deleteSpace,
     removeElementsIfIncludes,
     removeElementsIfContentNumbers,
-    removeSimbols, 
+    removeSimbols,
+    symbols
 } 
