@@ -69,7 +69,7 @@ const symbols = [
     '(', ')', '*', '&', '¨', '%', '$', '#',
     '@', '!', '"', 'º', 'ª', '§', '¬', '¢',
     '£', '³', '²', '¹', '<i>', '<\i>', '\r',
-    '♪', '"', "'"
+    '♪', '"',
 ]
 
 const removeSimbols = () => {
@@ -85,15 +85,12 @@ const removeSimbols = () => {
 }
 
 const accElements = data => {
-    return data.reduce((acc, value) => {
-        const valueToLowerCase = value.toLowerCase()
-        if (acc[valueToLowerCase]) {
-            acc[valueToLowerCase] += 1
-        } else {
-            acc[valueToLowerCase] = 1
-        }
+    return Object.values(data.reduce((acc, value) => {
+        const el = value.toLowerCase()
+        const qtd = acc[el] ? acc[el].qtd + 1 : 1
+        acc[el] = { element: el, qtd }        
         return acc
-    }, {})
+    }, {}))
 }
 
 module.exports = {
