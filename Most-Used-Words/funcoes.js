@@ -4,7 +4,8 @@ const path = require('path')
 const readDirectory = way => {
     return new Promise((resolve, reject) => {
         try {
-            const files = fs.readdirSync(way).map(file => path.join(way, file))
+            const files = fs.readdirSync(way)
+                .map(file => path.join(way, file))
             resolve(files)
         } catch (error) {
             reject(`Erro no processo: ${error}`)
@@ -69,17 +70,15 @@ const symbols = [
     '(', ')', '*', '&', '¨', '%', '$', '#',
     '@', '!', '"', 'º', 'ª', '§', '¬', '¢',
     '£', '³', '²', '¹', '<i>', '<\i>', '\r',
-    '♪', '"',
+    '♪', '"', 
 ]
 
-const removeSimbols = () => {
+const removeSimbols = (symbols) => {
     return function (array) {
         return array.map(el => {
-            let newData = el
-            symbols.forEach(symbol => {
-                newData = newData.split(symbol).join('').trim()
-            })
-            return newData
+            return symbols.reduce((acc, data) => {
+                return acc.split(data).join('')
+            }, el)
         })
     }
 }
@@ -91,6 +90,14 @@ const accElements = data => {
         acc[el] = { element: el, qtd }        
         return acc
     }, {}))
+}
+
+const sortByAttr = (attr, order = 'desc') => {
+    return function (array) {
+        const asc = (o1, o2) => o1[attr] - o2[attr]
+        const desc = (o1, o2) => o2[attr] - o1[attr]
+        return array.sort(order === 'desc' ? desc : asc)
+    }
 }
 
 module.exports = {
@@ -105,5 +112,6 @@ module.exports = {
     removeElementsIfContentNumbers,
     removeSimbols,
     symbols,
-    accElements
+    accElements,
+    sortByAttr
 } 

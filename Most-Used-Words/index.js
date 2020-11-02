@@ -1,9 +1,6 @@
-const express = require('express')
-const app = express()  
-const fn = require('./funcoes')
-
 const path = require('path')
 const way = path.join(__dirname, 'subtitles')
+const fn = require('./funcoes')
 
 fn.readDirectory(way)
     .then(fn.getElementsWithEnd('.srt'))
@@ -18,9 +15,13 @@ fn.readDirectory(way)
     .then(fn.removeElementsIfContentNumbers)
     .then(fn.removeSimbols(fn.symbols))
     .then(fn.arrayToString)
-    .then(fn.splitStringsBy(' '))
+    .then(fn.splitStringsBy(' '))    
+    .then(fn.deleteSpace)
     .then(fn.removeElementsIfContentNumbers)
-    .then(fn.accElements)
-    
+    .then(fn.accElements)    
+    .then(fn.sortByAttr('qtd'))
     .then(console.log)
     .catch(console.log)
+
+    
+    
