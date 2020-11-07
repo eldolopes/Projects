@@ -2,24 +2,28 @@ const path = require('path')
 const way = path.join(__dirname, 'subtitles')
 const fn = require('./funcoes')
 
-fn.readDirectory(way)
-    .then(fn.getElementsWithEnd('.srt'))
-    .then(fn.replaceValue('\\', '/'))   
-    .then(fn.readFiles)
-    .then(fn.arrayToString)
-    .then(fn.splitStringsBy('\n'))
-    .then(fn.deleteSpace)
-    .then(fn.removeElementsIfIncludes('-->'))
-    .then(fn.removeElementsIfIncludes('<b>'))
-    .then(fn.removeElementsIfIncludes('www'))
-    .then(fn.removeElementsIfContentNumbers)
-    .then(fn.removeSimbols(fn.symbols))
-    .then(fn.arrayToString)
-    .then(fn.splitStringsBy(' '))    
-    .then(fn.deleteSpace)
-    .then(fn.removeElementsIfContentNumbers)
-    .then(fn.accElements)    
-    .then(fn.sortByAttr('qtd'))
+const getMostWords = fn.composefunctions(
+    fn.readDirectory,
+    fn.getElementsWithEnd('.srt'),
+    fn.replaceValue('\\', '/'),
+    fn.readFiles,
+    fn.arrayToString,
+    fn.splitStringsBy('\n'),
+    fn.deleteSpace,
+    fn.removeElementsIfIncludes('-->'),
+    fn.removeElementsIfIncludes('<b>'),
+    fn.removeElementsIfIncludes('www'),
+    fn.removeElementsIfContentNumbers,
+    fn.removeSimbols(fn.symbols),
+    fn.arrayToString,
+    fn.splitStringsBy(' '),
+    fn.deleteSpace,
+    fn.removeElementsIfContentNumbers,
+    fn.accElements,
+    fn.sortByAttr('qtd'),
+)
+
+ getMostWords(way)   
     .then(console.log)
     .catch(console.log)
 

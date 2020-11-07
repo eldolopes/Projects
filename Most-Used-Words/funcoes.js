@@ -1,6 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 
+const composefunctions = (...fns) => {
+    return value => {
+        return fns.reduce(async (acc, fn) => {
+            return fn(await acc)
+        }, value)
+    }
+}
+
 const readDirectory = way => {
     return new Promise((resolve, reject) => {
         try {
@@ -101,6 +109,7 @@ const sortByAttr = (attr, order = 'desc') => {
 }
 
 module.exports = {
+    composefunctions,
     readDirectory,
     getElementsWithEnd,
     replaceValue,
