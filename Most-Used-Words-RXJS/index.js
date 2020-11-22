@@ -1,10 +1,24 @@
 const path = require('path')
 const way = path.join(__dirname, 'subtitles')
-const fn = require('./funcoes')
+const fn = require('./functions')
 
-const getMostWords = fn.composefunctions(
+const { first } = require('rxjs/operators')
+
+fn.readerDirectory(way)
+    .pipe(
+        fn.getElementsWithEnd('.srt'),
+        fn.readFile(),
+        fn.splitStringsBy('\n'),        
+        fn.deleteSpace(),
+        fn.removeElementsIfIncludes('-->'),
+        fn.removeElementsIfContentNumbens()
+    )
+    .subscribe(console.log)
+
+/* const getMostWords = fn.composefunctions(
     fn.readDirectory,
     fn.getElementsWithEnd('.srt'),
+    fn.replaceValue('\\', '/'),
     fn.readFiles,
     fn.arrayToString,
     fn.splitStringsBy('\n'),
@@ -19,12 +33,12 @@ const getMostWords = fn.composefunctions(
     fn.deleteSpace,
     fn.removeElementsIfContentNumbers,
     fn.accElements,
-    fn.sortByAttr('qtd'), */
+    fn.sortByAttr('qtd'),
 )
 
  getMostWords(way)   
     .then(console.log)
-    .catch(console.log)
+    .catch(console.log) */
 
     
     

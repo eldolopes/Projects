@@ -1,0 +1,16 @@
+{
+  "name": "Most-Used-Words-RXJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "functions.js",
+  "dependencies": {
+    "rxjs": "^6.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
