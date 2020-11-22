@@ -62,10 +62,12 @@ const splitStringsBy = value => {
     }))
 }
 
-const deleteSpace = () => {
+const removeEmptyValue = () => {
     return createPipeOperator(subscriber => ({
         next(data) {
-            subscriber.next(data.trim())
+            if (data.trim()) {
+                subscriber.next(data)
+            }            
         }
     }))
 }
@@ -80,13 +82,58 @@ const removeElementsIfIncludes = value => {
     }))
 }
 
-const removeElementsIfContentNumbens = () => {
+const removeElementsIfStartWithNumbens = () => {
     return createPipeOperator(subscriber => ({
         next(data) {
-            let num = parseInt(data.trim())
+            const num = parseInt(data.trim())
             if (num !== num) {
                 subscriber.next(data)
             }           
+        }
+    }))
+}
+
+const symbols = [
+    '.', ',', '/', '?', ';', ':', '~', '^',
+    '{', '}', '[', ']', '=', '+', '-', '_',
+    '(', ')', '*', '&', '¨', '%', '$', '#',
+    '@', '!', '"', 'º', 'ª', '§', '¬', '¢',
+    '£', '³', '²', '¹', '<i>', '<\i>', '\r',
+    '♪', '"', 
+]
+
+const removeSymblos = symbols => {
+    return createPipeOperator(subscriber => ({
+        next(data) {
+            const res = symbols.reduce((acc, symbol) => {
+                return acc.split(symbol).join('')
+            }, data)
+            subscriber.next(res)
+        }
+    }))
+}
+
+const accElements = () => {
+    return createPipeOperator(subscriber => ({
+        next(data) {
+            const res = Object.values(data.reduce((acc, value) => {
+                const el = value.toLowerCase()
+                const qtd = acc[el] ? acc[el].qtd + 1 : 1
+                acc[el] = { element: el, qtd }  
+                return acc                            
+            }, {}))
+            subscriber.next(res)   
+        }
+    }))
+}
+
+const sortByAttribute = (attr, order = 'desc') => {
+    return createPipeOperator(subscriber => ({
+        next(data) {
+            const asc = (o1, o2) => o1[attr] - o2[attr]
+            const desc = (o1, o2) => o2[attr] - o1[attr]
+            const res = data.sort(order === 'desc' ? desc : asc)
+            subscriber.next(res)
         }
     }))
 }
@@ -96,7 +143,11 @@ module.exports = {
     getElementsWithEnd,
     readFile,
     splitStringsBy,
-    deleteSpace,
+    removeEmptyValue,
     removeElementsIfIncludes,
-    removeElementsIfContentNumbens
+    removeElementsIfStartWithNumbens,
+    symbols,
+    removeSymblos,
+    accElements,
+    sortByAttribute
 }

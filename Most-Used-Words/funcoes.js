@@ -81,7 +81,7 @@ const symbols = [
     '♪', '"', 
 ]
 
-const removeSimbols = (symbols) => {
+const removeSimbols = symbols => {
     return function (array) {
         return array.map(el => {
             return symbols.reduce((acc, data) => {

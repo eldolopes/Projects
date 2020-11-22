@@ -2,16 +2,24 @@ const path = require('path')
 const way = path.join(__dirname, 'subtitles')
 const fn = require('./functions')
 
-const { first } = require('rxjs/operators')
+const { first, toArray } = require('rxjs/operators')
 
 fn.readerDirectory(way)
     .pipe(
         fn.getElementsWithEnd('.srt'),
         fn.readFile(),
         fn.splitStringsBy('\n'),        
-        fn.deleteSpace(),
-        fn.removeElementsIfIncludes('-->'),
-        fn.removeElementsIfContentNumbens()
+        fn.removeEmptyValue(),
+        //fn.removeElementsIfIncludes('-->'),
+        fn.removeElementsIfStartWithNumbens(),
+        fn.removeSymblos(fn.symbols),
+        fn.splitStringsBy(' '),
+        fn.removeEmptyValue(),
+        fn.removeElementsIfStartWithNumbens(),
+        toArray(),
+        fn.accElements(),
+        fn.sortByAttribute('qtd')
+        //first()
     )
     .subscribe(console.log)
 
