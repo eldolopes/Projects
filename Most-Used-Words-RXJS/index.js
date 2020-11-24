@@ -2,24 +2,26 @@ const path = require('path')
 const way = path.join(__dirname, 'subtitles')
 const fn = require('./functions')
 
-const { first, toArray } = require('rxjs/operators')
+const { toArray, map, groupBy, mergeMap } = require('rxjs/operators')
 
 fn.readerDirectory(way)
     .pipe(
         fn.getElementsWithEnd('.srt'),
         fn.readFile(),
-        fn.splitStringsBy('\n'),        
-        fn.removeEmptyValue(),
+        fn.splitStringsBy('\n'),
         //fn.removeElementsIfIncludes('-->'),
         fn.removeElementsIfStartWithNumbens(),
         fn.removeSymblos(fn.symbols),
         fn.splitStringsBy(' '),
         fn.removeEmptyValue(),
-        fn.removeElementsIfStartWithNumbens(),
+        fn.removeElementsIfStartWithNumbens(),        
+        //fn.accElements(),
+        groupBy(el => el),
+        mergeMap(data => data.pipe(toArray())),
+        map(data => ({ elements: data[0], qtd: data.length})),
         toArray(),
-        fn.accElements(),
-        fn.sortByAttribute('qtd')
-        //first()
+        //fn.sortByAttribute('qtd'),
+        map(fn.sortAttributeBy())
     )
     .subscribe(console.log)
 
@@ -44,9 +46,8 @@ fn.readerDirectory(way)
     fn.sortByAttr('qtd'),
 )
 
- getMostWords(way)   
+ getMostWords(way)
     .then(console.log)
     .catch(console.log) */
 
-    
-    
+

@@ -1,13 +1,15 @@
 const fs = require('fs')
 const path = require('path')
+const _ = require('lodash')
 const { Observable } = require('rxjs')
+
 
 
 const readerDirectory = way => {
     return new Observable(subscriber => {
         try {
             fs.readdirSync(way).forEach(file => {
-                subscriber.next(path.join(way, file))  
+                subscriber.next(path.join(way, file))
             })
             subscriber.complete()
         } catch (e) {
@@ -57,7 +59,7 @@ const splitStringsBy = value => {
         next(data) {
             data.split(value).forEach(el => {
                 subscriber.next(el)
-            })            
+            })
         }
     }))
 }
@@ -67,7 +69,7 @@ const removeEmptyValue = () => {
         next(data) {
             if (data.trim()) {
                 subscriber.next(data)
-            }            
+            }
         }
     }))
 }
@@ -77,7 +79,7 @@ const removeElementsIfIncludes = value => {
         next(data) {
             if (!data.includes(value)) {
                 subscriber.next(data)
-            }            
+            }
         }
     }))
 }
@@ -88,7 +90,7 @@ const removeElementsIfStartWithNumbens = () => {
             const num = parseInt(data.trim())
             if (num !== num) {
                 subscriber.next(data)
-            }           
+            }
         }
     }))
 }
@@ -99,7 +101,7 @@ const symbols = [
     '(', ')', '*', '&', '¨', '%', '$', '#',
     '@', '!', '"', 'º', 'ª', '§', '¬', '¢',
     '£', '³', '²', '¹', '<i>', '<\i>', '\r',
-    '♪', '"', 
+    '♪', '"',
 ]
 
 const removeSymblos = symbols => {
@@ -119,10 +121,10 @@ const accElements = () => {
             const res = Object.values(data.reduce((acc, value) => {
                 const el = value.toLowerCase()
                 const qtd = acc[el] ? acc[el].qtd + 1 : 1
-                acc[el] = { element: el, qtd }  
-                return acc                            
+                acc[el] = { element: el, qtd }
+                return acc
             }, {}))
-            subscriber.next(res)   
+            subscriber.next(res)
         }
     }))
 }
@@ -138,6 +140,10 @@ const sortByAttribute = (attr, order = 'desc') => {
     }))
 }
 
+const sortAttributeBy = () => {
+    return array => _.sortBy(array, el => -el.qtd)
+}
+
 module.exports = {
     readerDirectory,
     getElementsWithEnd,
@@ -149,5 +155,6 @@ module.exports = {
     symbols,
     removeSymblos,
     accElements,
-    sortByAttribute
+    sortByAttribute,
+    sortAttributeBy
 }

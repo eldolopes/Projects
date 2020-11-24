@@ -10,7 +10,7 @@ const getMostWords = fn.composefunctions(
     fn.splitStringsBy('\n'),
     fn.deleteSpace,
     fn.removeElementsIfIncludes('-->'),
-    fn.removeElementsIfIncludes('<b>'),
+     fn.removeElementsIfIncludes('<b>'),
     fn.removeElementsIfIncludes('www'),
     fn.removeElementsIfContentNumbers,
     fn.removeSimbols(fn.symbols),
@@ -19,7 +19,7 @@ const getMostWords = fn.composefunctions(
     fn.deleteSpace,
     fn.removeElementsIfContentNumbers,
     fn.accElements,
-    fn.sortByAttr('qtd'), */
+    fn.sortByAttr('qtd'),
 )
 
  getMostWords(way)   
