@@ -1,0 +1,28 @@
+<%- include('partials/header.ejs') %>
+
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y-sm">
+	<div class="container">
+		<header class="section-heading">
+			<h3 class="section-title">Todos os Produtos</h3>
+		</header><!-- sect-heading -->		
+		<div class="row">
+			<% allProductsStandard.forEach( listProduct => { %>
+			<div class="col-md-3">
+				
+				<div href="#" class="card card-product-grid">
+					<a href="#" class="img-wrap"> <img src="/images/items/1.jpg"> </a>
+					<figcaption class="info-wrap">
+						<a href="#" class="title"><%= listProduct.name %></a>
+						<div class="price mt-1"><%= listProduct.price %></div> <!-- price-wrap.// -->
+					</figcaption>
+				</div>
+			
+			</div> <!-- col.// -->	
+		<% }) %>
+		</div> <!-- row.// -->
+	</div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
+<
+	%- include ('partials/footer.ejs') %>

@@ -1,0 +1,79 @@
+<%- include ('partials/header.ejs') %>
+
+<!-- ========================= SECTION  ========================= -->
+
+<section class="section-name padding-y-sm">
+    <div class="container">    
+        <header class="section-heading">    
+              
+            <h3 class="section-title"><%= oneCategoryById[0].category %></h3>
+           
+        </header><!-- sect-heading -->    
+    </div><!-- container // -->
+</section>
+    <div class="row">
+        <% allProductsByCategoryId.forEach( productList => { %>    
+            <aside class="col-md-12">
+        <article class="card card-product-list mb-4">
+            <div class="card-body">
+            <div class="row">
+                <aside class="col-sm-6">
+                    <a href="#" class="img-wrap"><img src="/images/items/7.jpg"></a>
+                </aside> <!-- col.// -->
+                <div class="col-sm-6">
+                        <a href="#" class="btn-link float-right"> <i class="fa fa-heart"></i></a>
+                        <a href="#" class="title mt-2 h5"><%= productList.name %></a>
+                        <div class="d-flex mb-3">
+                            <div class="price-wrap mr-4">
+                                <span class="price h5"><%= productList.price %></span>
+                            </div> <!-- price-dewrap // -->
+        
+                            <div class="rating-wrap">
+                                <ul class="rating-stars">
+                                    <li style="width:80%" class="stars-active">
+                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                </ul>
+                                <small class="label-rating text-muted">7/10</small>
+                            </div> <!-- rating-wrap.// -->
+                        </div>
+        
+                        <ul class="list-bullet">
+                            <li><%= productList.description %></li>                                
+                        </ul>
+                        
+        
+                        <div class="form-row">
+                            <div class="form-group col-md flex-grow">
+                                <div class="input-group input-spinner">
+                                  <div class="input-group-prepend">
+                                    <button class="btn btn-light" type="button" id="button-plus"> + </button>
+                                  </div>
+                                  <input type="text" class="form-control" value="1">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-light" type="button" id="button-minus"> − </button>
+                                  </div>
+                                </div>  <!-- input-spinner.// -->
+                            </div> <!-- col.// -->
+                            <div class="form-group">
+                                <a href="/produto/<%- productList.id %>/slug" class="btn btn-light"> <span class="text">Detalhes do Produto</span></a>
+                            </div> <!-- col.// -->
+                            <div class="form-group col-md">
+                                <a href="#" class="btn btn-primary"> <span class="text">Adicionar ao Carrinho</span> <i class="fas fa-shopping-cart"></i> </a>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                </div> <!-- col.// -->
+            </div> <!-- row.// -->
+            </div> <!-- card-body .// -->
+        </article>
+        <% }) %>    
+    </div> <!-- row.// -->
+
+<%- include ('partials/footer.ejs') %>

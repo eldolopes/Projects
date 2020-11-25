@@ -1,0 +1,80 @@
+{% include "partials/header.ejs" %}
+
+<body id="page-study">
+    <div id="container">
+        <header class="page-header">
+            <div class="top-bar-container">
+                <a href="/">
+                <img src="/images/icons/back.svg" alt="Voltar">
+                </a>            
+                <img src="/images/logo.svg" alt="Proffy">
+            </div>           
+            <div class="header-content">   
+                <!--
+                <p>{{ allTeachers }}</p> 
+                <p>{{ allFilters.subject }}</p>
+                <p>{{ allCourses.courses }}</p>
+                -->            
+                <strong>Esses são os proffys disponíveis</strong>   
+                     
+                <form id="search-teachers">                    
+                    <div class="select-block">
+                        <label for="subject" id="subject">Matéria</label>  
+                        <select name="subject" id="subject">
+                            <option value="" disabled="" hidden="">Selecione uma opção</option> 
+                            {%for courses in allCourses %}                           
+                            <option value="{{loop.index}}" {{ "selected" if allFilters.subject ==  loop.index }}>
+                                {{courses}}
+                            </option>
+                            {%endfor%}                                                                      
+                        </select>  
+                    </div>
+                    <div class="select-block">
+                        <label for="weekday" id="subject">Dia da Semana</label>  
+                        <select name="weekday" id="weekday">
+                            <option value="" disabled="" hidden="">Selecione uma opção</option>
+                            {%for days in weekdays %}
+                            <option value="{{loop.index0}}" {{ "selected" if allFilters.weekday == loop.index0 }}>
+                                {{days}}
+                            </option>
+                            {%endfor%}                            
+                        </select>  
+                    </div>
+                    <div class="input-block">
+                        <label for="time">Horário</label>  
+                        <input name="time" id="time" type="time" value="{{allFilters.time}}"> 
+                    </div>
+                    <button type="submit">Filtrar</button>
+                </form>                
+            </div>
+        </header>
+
+        <main>
+            {%for teacher in allTeachers %}
+            <article class="teacher-item">                
+                <header>                    
+                    <img 
+                        src="{{ teacher.avatar }}" 
+                        alt="{{ teacher.name }}">
+                    <div>
+                        <strong>{{ teacher.name }}</strong>
+                        <span>{{ teacher.subject }}</span>
+                    </div>
+                </header>            
+                <p>{{ teacher.bio }}</p>            
+                <footer>
+                    <p>Preço/hora<strong>R$ {{ teacher.cost }},00</strong></p>
+                    <a class="button" target="_blank" style="text-decoration:none" 
+                    href="https://api.whatsapp.com/send?1=pt_BR&phone=55{{ teacher.whatsapp }}&text=Olá, {{ teacher.name }}. Tenho interesse na sua aula de {{ teacher.subject }} anunciada no Proffy.">
+                        <img src="/images/icons/whatsapp.svg" alt="Whatsapp">Entrar em contato
+                    </a> 
+                </footer>                
+            </article>  
+            {%endfor%}
+            
+                
+        </main>
+    </div> 
+
+</body>
+</html>
