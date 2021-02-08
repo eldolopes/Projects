@@ -3,11 +3,10 @@
   <div class="container">
     <h1>Go! Short Url</h1>
     <form class="my-4 form-inline" action="/shortUrls" method="POST" >
-      <label class="sr-only" for="fullUrl">Url</label>
-      <input class="form-control col mr-2" type="url" name="fullUrl" id="fullUrl" required placeholder="Your Url Here!">
+      <label class="sr-only" for="completeUrl">Url</label>
+      <input class="form-control col mr-2" type="url" name="completeUrl" id="completeUrl" required placeholder="Your Url Here!">
       <button class="btn btn-success" type="submit">Let's GO!</button>
     </form>
-    
     <table class="table table-striped table-responsive">
       <thead>
         <tr>
@@ -17,13 +16,13 @@
         </tr>
       </thead>
       <tbody>
-    
+        <% shortUrls.forEach(shortUrl => { %>
           <tr>
-            <td><a href="http://fuuuuuuuuuuuuuuuuuuuuuuuuuuullurl">Full URL</a></td>
-            <td><a href="http://shorturl">Short URL</a></td>
-            <td>0</td>
+            <td><a href="<%= shortUrl.yourUrl %>"><%= shortUrl.yourUrl %></a></td>
+            <td><a href="<%= shortUrl.goShortUrl %>"><%= shortUrl.goShortUrl %></a></td>
+            <td><%= shortUrl.hits %></td>
           </tr>
-        
+        <% }) %>      
       </tbody>
     </table>
   </div>
