@@ -1,13 +1,17 @@
 const express = require('express')
-const mongoose = require('mongoose')
-const ShortUrl = require('./models/shortUrl')
 const app = express()
+const path = require('path')
+const ShortUrl = require('./models/shortUrl')
 
+
+const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/urlShortener', {
   useNewUrlParser: true, useUnifiedTopology: true
 })
 
 app.set('view engine', 'ejs')
+app.set('views', path.join('views'))
+
 app.use(express.urlencoded({ extended: false }))
 
 app.get('/', async (req, res) => {
